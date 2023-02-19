@@ -14,7 +14,7 @@ public class TestLoginUser {
     //Создание рандомного email
     static String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание рандомного password
-    static String password = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    static String password = String.format("%s", RandomStringUtils.randomNumeric(6).toLowerCase());
     //Создание рандомного name
     static String name = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
 

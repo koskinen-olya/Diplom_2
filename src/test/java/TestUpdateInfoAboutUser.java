@@ -16,13 +16,13 @@ public class TestUpdateInfoAboutUser {
     //Создание рандомного email
     static String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание рандомного password
-    static String password = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    static String password = String.format("%s", RandomStringUtils.randomNumeric(6).toLowerCase());
     //Создание рандомного name
     static String name = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание email для обновления
     static String emailForUpd = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание password  для обновления
-    static String passwordForUpd = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    static String passwordForUpd = String.format("%s", RandomStringUtils.randomNumeric(6).toLowerCase());
     //Создание name  для обновления
     static String nameForUpd = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
 

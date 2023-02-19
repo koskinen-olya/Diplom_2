@@ -14,7 +14,7 @@ public class TestCreateOrder {
     //Создание рандомного email
     String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание рандомного password
-    String password = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    String password = String.format("%s", RandomStringUtils.randomNumeric(6).toLowerCase());
     //Создание рандомного name
     String name = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     private final String URL = "https://stellarburgers.nomoreparties.site";
