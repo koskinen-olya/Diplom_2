@@ -9,6 +9,8 @@ import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
 public class TestCreateOrder {
+    UserClient userClient = new UserClient();
+    OrderClient orderClient = new OrderClient();
     //Создание рандомного email
     String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
     //Создание рандомного password
@@ -36,14 +38,11 @@ public class TestCreateOrder {
     @Before
     public void setUp() {
         RestAssured.baseURI = URL;
-        UserClient userClient = new UserClient();
         userClient.createUser(email, password, name);
     }
 
     @Test
     public void testCreateOrderWithToken() {
-        OrderClient orderClient = new OrderClient();
-        UserClient userClient = new UserClient();
         String token = userClient.getToken(email, password);
         Response response = orderClient.createOrder(ingredients, token);
         response.then().assertThat().statusCode(expectedCode);
@@ -51,14 +50,12 @@ public class TestCreateOrder {
 
     @Test
     public void testCreateOrderWithoutToken() {
-        OrderClient orderClient = new OrderClient();
         Response response = orderClient.createOrder(ingredients, "");
         response.then().assertThat().statusCode(expectedCode);
     }
 
     @After
     public void deleteUser() {
-        UserClient userClient = new UserClient();
         userClient.deleteUser(email, password);
     }
 }

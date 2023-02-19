@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class TestUpdateInfoAboutUser {
+    UserClient userClient = new UserClient();
     private final String URL = "https://stellarburgers.nomoreparties.site";
     //Создание рандомного email
     static String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
@@ -43,13 +44,11 @@ public class TestUpdateInfoAboutUser {
     @Before
     public void setUp() {
         RestAssured.baseURI = URL;
-        UserClient userClient = new UserClient();
         userClient.createUser(email, password, name);
     }
 
     @Test
     public void testUpdateWithToken() {
-        UserClient userClient = new UserClient();
         String token = userClient.getToken(email, password);
         Response response = userClient.updateInfoAboutUser(email, password, name, token);
         response.then().assertThat().statusCode(200);
@@ -58,7 +57,6 @@ public class TestUpdateInfoAboutUser {
 
     @Test
     public void testUpdateWithoutToken() {
-        UserClient userClient = new UserClient();
         Response response = userClient.updateInfoAboutUser(email, password, name, "");
         response.then().assertThat().statusCode(401);
         response.then().assertThat().body("success", equalTo(false));
@@ -67,7 +65,6 @@ public class TestUpdateInfoAboutUser {
 
     @After
     public void deleteUser() {
-        UserClient userClient = new UserClient();
         userClient.deleteUser(email, password);
     }
 }

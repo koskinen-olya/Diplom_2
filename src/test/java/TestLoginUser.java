@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class TestLoginUser {
+    UserClient userClient = new UserClient();
     private static final String URL = "https://stellarburgers.nomoreparties.site";
     //Создание рандомного email
     static String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
@@ -44,7 +45,6 @@ public class TestLoginUser {
 
     @Test
     public void testLoginUser() {
-        UserClient userClient = new UserClient();
         Response response = userClient.loginUser(email, password);
         response.then().assertThat().statusCode(expectedCode);
         response.then().assertThat().body("success", equalTo(expectedSuccess));
@@ -52,7 +52,6 @@ public class TestLoginUser {
 
     @After
     public void deleteUser() {
-        UserClient userClient = new UserClient();
         userClient.deleteUser(email, password);
     }
 }

@@ -41,7 +41,6 @@ public class TestCreateUser {
     @Before
     public void setUp() {
         RestAssured.baseURI = URL;
-        UserClient userClient = new UserClient();
     }
 
     @Test
@@ -52,7 +51,6 @@ public class TestCreateUser {
         response.then().assertThat().body("success", equalTo(expectedSuccess));
     }
 
-    //@After
     @AfterClass
     public static void deleteUser() {
         UserClient userClient = new UserClient();
