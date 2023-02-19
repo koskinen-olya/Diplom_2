@@ -1,5 +1,6 @@
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +11,19 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class TestUpdateInfoAboutUser {
-    private final String email;
-    private final String password;
-    private final String name;
+    private final String URL = "https://stellarburgers.nomoreparties.site";
+    //Создание рандомного email
+    static String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
+    //Создание рандомного password
+    static String password = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    //Создание рандомного name
+    static String name = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
+    //Создание email для обновления
+    static String emailForUpd = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
+    //Создание password  для обновления
+    static String passwordForUpd = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    //Создание name  для обновления
+    static String nameForUpd = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
 
     public TestUpdateInfoAboutUser(String email, String password, String name) {
         this.email = email;
@@ -23,23 +34,23 @@ public class TestUpdateInfoAboutUser {
     @Parameterized.Parameters
     public static Object[][] getCredentials() {
         return new Object[][]{
-                {"emailUpdate@mail.ru", "12345", "userForTest"},//Проверка обновления поля email
-                {"emailForTest@mail.ru", "54321", "userForTest"},//Проверка обновления поля password
-                {"emailForTest@mail.ru", "12345", "nameUpdate"},//Проверка обновления поля name
+                {emailForUpd, password, name},//Проверка обновления поля email
+                {email, passwordForUpd, name},//Проверка обновления поля password
+                {email, password, nameForUpd},//Проверка обновления поля name
         };
     }
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        RestAssured.baseURI = URL;
         UserClient userClient = new UserClient();
-        userClient.createUser("emailForTest@mail.ru", "12345", "userForTest");
+        userClient.createUser(email, password, name);
     }
 
     @Test
     public void testUpdateWithToken() {
         UserClient userClient = new UserClient();
-        String token = userClient.getToken("emailForTest@mail.ru", "12345");
+        String token = userClient.getToken(email, password);
         Response response = userClient.updateInfoAboutUser(email, password, name, token);
         response.then().assertThat().statusCode(200);
         response.then().assertThat().body("success", equalTo(true));
@@ -57,8 +68,6 @@ public class TestUpdateInfoAboutUser {
     @After
     public void deleteUser() {
         UserClient userClient = new UserClient();
-        boolean user = userClient.loginUser(email, password).then().extract().body().path("success");
-        if (user)
-            userClient.deleteUser(email, password);
+        userClient.deleteUser(email, password);
     }
 }

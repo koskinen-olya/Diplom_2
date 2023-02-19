@@ -3,9 +3,10 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class OrderClient {
+    private final String ORDER = "/api/orders";
 
     public Response createOrder(String[] ingredients, String token) {
-        BodyForCreateOrder jsonBody = new BodyForCreateOrder(ingredients);
+        Order jsonBody = new Order(ingredients);
         Response response =
                 given()
                         .auth().oauth2(token)
@@ -13,7 +14,7 @@ public class OrderClient {
                         .and()
                         .body(jsonBody)
                         .when()
-                        .post("/api/orders");
+                        .post(ORDER);
         return response;
     }
 
@@ -21,7 +22,7 @@ public class OrderClient {
         Response response =
                 given()
                         .auth().oauth2(token)
-                        .get("/api/orders");
+                        .get(ORDER);
         return response;
     }
 }

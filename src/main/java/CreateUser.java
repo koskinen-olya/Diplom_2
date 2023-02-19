@@ -1,14 +1,9 @@
-public class BodyForCreateUser {
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+public class CreateUser {
+    private String password;
+    private String name;
     private String email;
 
+    //Getter and Setter for password
     public String getPassword() {
         return password;
     }
@@ -17,8 +12,7 @@ public class BodyForCreateUser {
         this.password = password;
     }
 
-    private String password;
-
+    //Getter and Setter for name
     public String getName() {
         return name;
     }
@@ -27,16 +21,21 @@ public class BodyForCreateUser {
         this.name = name;
     }
 
-    private String name;
+    //Getter and Setter for email
+    public String getEmail() {
+        return email;
+    }
 
-    public BodyForCreateUser(String email, String password, String name) {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public CreateUser(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
 
-    public BodyForCreateUser() {
+    public CreateUser() {
     }
-
-
 }

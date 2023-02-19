@@ -1,5 +1,6 @@
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,13 @@ import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
 public class TestCreateOrder {
+    //Создание рандомного email
+    String email = String.format("%s@mail.ru", RandomStringUtils.randomAlphabetic(5).toLowerCase());
+    //Создание рандомного password
+    String password = String.format("%s", RandomStringUtils.randomNumeric(5).toLowerCase());
+    //Создание рандомного name
+    String name = String.format("%s", RandomStringUtils.randomAlphabetic(5).toLowerCase());
+    private final String URL = "https://stellarburgers.nomoreparties.site";
     private final String[] ingredients;
     private final int expectedCode;
 
@@ -27,16 +35,16 @@ public class TestCreateOrder {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        RestAssured.baseURI = URL;
         UserClient userClient = new UserClient();
-        userClient.createUser("testOrders@mail.ru", "12345", "testOrders");
+        userClient.createUser(email, password, name);
     }
 
     @Test
     public void testCreateOrderWithToken() {
         OrderClient orderClient = new OrderClient();
         UserClient userClient = new UserClient();
-        String token = userClient.getToken("testOrders@mail.ru", "12345");
+        String token = userClient.getToken(email, password);
         Response response = orderClient.createOrder(ingredients, token);
         response.then().assertThat().statusCode(expectedCode);
     }
@@ -51,6 +59,6 @@ public class TestCreateOrder {
     @After
     public void deleteUser() {
         UserClient userClient = new UserClient();
-        userClient.deleteUser("testOrders@mail.ru", "12345");
+        userClient.deleteUser(email, password);
     }
 }

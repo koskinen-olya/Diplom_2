@@ -1,4 +1,7 @@
-public class BodyForCreateOrder {
+public class Order {
+    private String[] ingredients;
+
+    //Getter and Setter for ingredients
     public String[] getIngredients() {
         return ingredients;
     }
@@ -7,12 +10,10 @@ public class BodyForCreateOrder {
         this.ingredients = ingredients;
     }
 
-    private String[] ingredients;
-
-    public BodyForCreateOrder() {
+    public Order() {
     }
 
-    public BodyForCreateOrder(String[] ingredients) {
+    public Order(String[] ingredients) {
         this.ingredients = ingredients;
     }
 }
